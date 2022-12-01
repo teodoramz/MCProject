@@ -1,8 +1,10 @@
 #include "Adc.h"
 #include "Uart.h"
 
-#define ADC_CHANNEL (15) // PORT C PIN 1
+#define ROTATION_SENSOR_CH (13) // PORT C PIN 2
+#define SOUND_SENSOR_CH (11) // PORT B PIN 3
 
+uint16_t switched;
 void ADC0_Init() {
 	
 	// Activarea semnalului de ceas pentru modulul periferic ADC
@@ -30,13 +32,16 @@ void ADC0_Init() {
 	ADC0->SC3 |= ADC_SC3_ADCO_MASK;
 	
 	// Activarea subsistemului de conversie prin aproximari succesive pe un anumit canal (PG.464)
-	ADC0->SC1[0] |= ADC_SC1_ADCH(ADC_CHANNEL);
+	ADC0->SC1[0] |= ADC_SC1_ADCH(SOUND_SENSOR_CH);
+	switched = 0;
+	
 	// Enables conversion complete interrupts
 	ADC0->SC1[0] |= ADC_SC1_AIEN_MASK;
 	
 	NVIC_ClearPendingIRQ(ADC0_IRQn);
 	NVIC_EnableIRQ(ADC0_IRQn);	
 }
+
 
 int ADC0_Calibrate() {
 	
@@ -111,7 +116,7 @@ int ADC0_Calibrate() {
 uint16_t ADC0_Read(){
 	
 	// A conversion is initiated following a write to SC1A, with SC1n[ADCH] not all 1's (PG. 485)
-	ADC0->SC1[0] |= ADC_SC1_ADCH(ADC_CHANNEL);
+	ADC0->SC1[0] |= ADC_SC1_ADCH(ROTATION_SENSOR_CH);
 	
 	// ADACT is set when a conversion is initiated
 	// and cleared when a conversion is completed or aborted.
@@ -129,30 +134,181 @@ uint16_t ADC0_Read(){
 	
 }
 
-void ADC0_IRQHandler(){
+void SND_SensorRez(){
+	
+	ADC0->SC1[0] = 0x00;
+	ADC0->SC3 = 0x00;
+	ADC0->SC3 |= ADC_SC3_ADCO_MASK;
+	ADC0->SC1[0] |= ADC_SC1_ADCH(SOUND_SENSOR_CH);
+	ADC0->SC1[0] |= ADC_SC1_AIEN_MASK;
+	
+	
 	uint16_t analog_input = (uint16_t) ADC0->R[0];
-
-	float measured_voltage = (analog_input * 3.3f) / 65535;
+//	float measured_voltage = (analog_input * 3.3f)  /65536;
+//		uint8_t parte_zecimala = (uint8_t) measured_voltage;
+//	uint8_t parte_fractionara1 = ((uint8_t)(measured_voltage * 10)) % 10;
+//	uint8_t parte_fractionara2 = ((uint8_t)(measured_voltage * 100)) % 10;
+//	
+//	UART0_Transmit('S');
+//		UART0_Transmit('N');
+//		UART0_Transmit('D');
+//	UART0_Transmit(':');
+//	UART0_Transmit(parte_zecimala + 0x30);
+//	UART0_Transmit('.');
+//	UART0_Transmit(parte_fractionara1 + 0x30);
+//	UART0_Transmit(parte_fractionara2 + 0x30);
 	
-	
-	uint8_t parte_zecimala = (uint8_t) measured_voltage;
-	uint8_t parte_fractionara1 = ((uint8_t)(measured_voltage * 10)) % 10;
-	uint8_t parte_fractionara2 = ((uint8_t)(measured_voltage * 100)) % 10;
-	UART0_Transmit('V');
-	UART0_Transmit('o');
-	UART0_Transmit('l');
-	UART0_Transmit('t');
-	UART0_Transmit('a');
-	UART0_Transmit('g');
-	UART0_Transmit('e');
-	UART0_Transmit(' ');
-	UART0_Transmit('=');
-	UART0_Transmit(' ');
-	UART0_Transmit(parte_zecimala + 0x30);
-	UART0_Transmit('.');
-	UART0_Transmit(parte_fractionara1 + 0x30);
-	UART0_Transmit(parte_fractionara2 + 0x30);
-	UART0_Transmit('V');
+	int i;
+	char v[16];
+	for(i = 0; i < 16; i++){
+		v[i] = '-';
+	}
+	int count = 0;
+	uint16_t c;
+	while(analog_input!=0){
+		v[count] = analog_input%10 + 0x30;
+		analog_input = analog_input/10;
+		count = count + 1;
+	}
+	if(switched == 0){
+	UART0_Transmit('S');
+		UART0_Transmit('N');
+		UART0_Transmit('D');
+	UART0_Transmit(':');
+	}
+	for(i = 0; i < count ; i++){
+		UART0_Transmit(v[count - i - 1]);
+	}
 	UART0_Transmit(0x0A);
 	UART0_Transmit(0x0D);
+}
+
+void ROT_SensorRez(){
+	
+	ADC0->SC1[0] = 0x00;
+	ADC0->SC3 = 0x00;
+	ADC0->SC3 |= ADC_SC3_ADCO_MASK;
+	ADC0->SC1[0] |= ADC_SC1_ADCH(ROTATION_SENSOR_CH);
+	ADC0->SC1[0] |= ADC_SC1_AIEN_MASK;
+	
+	
+	uint16_t analog_input = (uint16_t) ADC0->R[0];
+	int i;
+	char v[16];
+	for(i = 0; i < 16; i++){
+		v[i] = '-';
+	}
+	int count = 0;
+	uint16_t c;
+	while(analog_input!=0){
+		v[count] = analog_input%10 + 0x30;
+		analog_input = analog_input/10;
+		count = count + 1;
+	}
+	if(switched == 0){
+	UART0_Transmit('R');
+	UART0_Transmit('O');
+	UART0_Transmit('T');
+	UART0_Transmit(':');
+	}
+	for(i = 0; i < count ; i++){
+		UART0_Transmit(v[count - i - 1]);
+	}
+	UART0_Transmit(0x0A);
+	UART0_Transmit(0x0D);
+}
+
+void ADC0_IRQHandler(){
+	//uint16_t analog_input = (uint16_t) ADC0->R[0];
+	ROT_SensorRez();
+	SND_SensorRez();
+
+	//float measured_voltage = (analog_input * 3.3f)  /65536;
+//	int i;
+//	char v[16];
+//	for(i = 0; i < 16; i++){
+//		v[i] = '-';
+//	}
+//	int count = 0;
+//	uint16_t c;
+//	while(analog_input!=0){
+//		v[count] = analog_input%10 + 0x30;
+//		analog_input = analog_input/10;
+//		count = count + 1;
+//	}
+//	if(switched == 0){
+//	UART0_Transmit('C');
+//	UART0_Transmit(':');
+//	}
+//	else{
+//	UART0_Transmit('B');
+//	UART0_Transmit(':');
+//	}
+//	for(i = 0; i < count ; i++){
+//		UART0_Transmit(v[count - i - 1]);
+//	}
+//	
+	
+//	
+//	uint8_t parte_zecimala = (uint8_t) measured_voltage;
+//	uint8_t parte_fractionara1 = ((uint8_t)(measured_voltage * 10)) % 10;
+//	uint8_t parte_fractionara2 = ((uint8_t)(measured_voltage * 100)) % 10;
+//	UART0_Transmit('V');
+//	UART0_Transmit('o');
+//	UART0_Transmit('l');
+//	UART0_Transmit('t');
+//	UART0_Transmit('a');
+//	UART0_Transmit('g');
+//	UART0_Transmit('e');
+//	UART0_Transmit(' ');
+//	UART0_Transmit('=');
+//	UART0_Transmit(' ');
+////	UART0_Transmit(analog_input);
+//	UART0_Transmit(parte_zecimala + 0x30);
+//	UART0_Transmit('.');
+//	UART0_Transmit(parte_fractionara1 + 0x30);
+//	UART0_Transmit(parte_fractionara2 + 0x30);
+//	UART0_Transmit('V');
+//	UART0_Transmit(0x0A);
+//	UART0_Transmit(0x0D);
+//	
+//	if(switched == 0){
+//		ADC0->SC1[0] = 0x00;
+//		ADC0->SC1[0] |= ADC_SC1_ADCH(ROTATION_SENSOR_CH);
+//			ADC0->SC1[0] = 0x00;
+//	ADC0->SC3 = 0x00;
+
+//	// Selectarea modului de conversii continue, 
+//	// pentru a-l putea folosi in tandem cu mecanismul de intreruperi
+//ADC0->SC3 |= ADC_SC3_ADCO_MASK;
+//	
+//	// Activarea subsistemului de conversie prin aproximari succesive pe un anumit canal (PG.464)
+//	ADC0->SC1[0] |= ADC_SC1_ADCH(SOUND_SENSOR_CH);
+//	
+//	// Enables conversion complete interrupts
+//	ADC0->SC1[0] |= ADC_SC1_AIEN_MASK;
+//		switched=1;
+//		
+//		
+//		
+//		
+//		
+//	}
+//	else{
+//		ADC0->SC1[0] = 0x00;
+//		ADC0->SC1[0] |= ADC_SC1_ADCH(SOUND_SENSOR_CH);
+//			ADC0->SC3 = 0x00;
+
+//	// Selectarea modului de conversii continue, 
+//	// pentru a-l putea folosi in tandem cu mecanismul de intreruperi
+//	ADC0->SC3 |= ADC_SC3_ADCO_MASK;
+//	
+//	// Activarea subsistemului de conversie prin aproximari succesive pe un anumit canal (PG.464)
+//	ADC0->SC1[0] |= ADC_SC1_ADCH(ROTATION_SENSOR_CH);
+//	switched = 0;
+//	
+//	// Enables conversion complete interrupts
+//	ADC0->SC1[0] |= ADC_SC1_AIEN_MASK;
+//		switched=0;
+//	}
 }
