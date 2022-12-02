@@ -409,6 +409,16 @@
               <FileType>5</FileType>
               <FilePath>.\Code\Uart.h</FilePath>
             </File>
+            <File>
+              <FileName>gpio.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Code\gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>gpio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Code\gpio.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
