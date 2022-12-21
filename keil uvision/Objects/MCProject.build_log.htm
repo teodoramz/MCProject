@@ -21,45 +21,12 @@ Target DLL:      CMSIS_AGDI.dll V1.33.12.0
 Dialog DLL:      TARMCM1.DLL V1.14.6.0
  
 <h2>Project:</h2>
-C:\Users\Teoo\Desktop\MCProject\MCProject.uvprojx
+C:\Users\Teoo\Desktop\MCProject\keil uvision\MCProject.uvprojx
 Project File Date:  12/01/2022
 
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
-Code/gpio.c(1): warning: In file included from...
-Code/gpio.h(3): warning: no newline at end of file [-Wnewline-eof]
-void RGBLed_Init(void);
-                       ^
-Code/gpio.c(3): warning: // comments are not allowed in this language [-Wcomment]
-#define RED_LED_PIN (18) // PORT B
-                         ^
-Code/gpio.c(36): warning: no newline at end of file [-Wnewline-eof]
-}
- ^
-3 warnings generated.
-compiling gpio.c...
-compiling system_MKL25Z4.c...
-Code/main.c(2): warning: In file included from...
-Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
-void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
-                                   ^
-Code/main.c(3): warning: In file included from...
-Code/gpio.h(3): warning: no newline at end of file [-Wnewline-eof]
-void RGBLed_Init(void);
-                       ^
-2 warnings generated.
-compiling main.c...
-Code/Uart.c(1): warning: In file included from...
-Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
-void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
-                                   ^
-Code/Uart.c(6): warning: // comments are not allowed in this language [-Wcomment]
-        //Punem in asteptare pana cand registrul de transmisie a datelor nu este gol
-        ^
-2 warnings generated.
-compiling Uart.c...
-assembling startup_MKL25Z4.s...
 Code/Adc.c(2): warning: In file included from...
 Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
 void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
@@ -72,8 +39,41 @@ Code/Adc.c(83): warning: mixing declarations and code is a C99 extension [-Wdecl
                  ^
 3 warnings generated.
 compiling Adc.c...
+Code/gpio.c(1): warning: In file included from...
+Code/gpio.h(3): warning: no newline at end of file [-Wnewline-eof]
+void RGBLed_Init(void);
+                       ^
+Code/gpio.c(3): warning: // comments are not allowed in this language [-Wcomment]
+#define RED_LED_PIN (18) // PORT B
+                         ^
+Code/gpio.c(36): warning: no newline at end of file [-Wnewline-eof]
+}
+ ^
+3 warnings generated.
+compiling gpio.c...
+Code/main.c(2): warning: In file included from...
+Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
+void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
+                                   ^
+Code/main.c(3): warning: In file included from...
+Code/gpio.h(3): warning: no newline at end of file [-Wnewline-eof]
+void RGBLed_Init(void);
+                       ^
+2 warnings generated.
+compiling main.c...
+compiling system_MKL25Z4.c...
+Code/Uart.c(1): warning: In file included from...
+Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
+void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
+                                   ^
+Code/Uart.c(6): warning: // comments are not allowed in this language [-Wcomment]
+        //Punem in asteptare pana cand registrul de transmisie a datelor nu este gol
+        ^
+2 warnings generated.
+compiling Uart.c...
+assembling startup_MKL25Z4.s...
 linking...
-Program Size: Code=6984 RO-data=400 RW-data=0 ZI-data=360  
+Program Size: Code=7000 RO-data=400 RW-data=0 ZI-data=360  
 ".\Objects\MCProject.axf" - 0 Error(s), 10 Warning(s).
 
 <h2>Software Packages used:</h2>
@@ -101,10 +101,10 @@ Package Vendor: Keil
    * Component: ARM::CMSIS:CORE:5.6.0
 
    * Component: Keil::Device:Startup:2.5.0
+      Source file:   Device/Source/ARM/startup_MKL25Z4.s
       Include file:  Device/Source/system_MKL25Z4.h
       Source file:   Device/Source/system_MKL25Z4.c
-      Source file:   Device/Source/ARM/startup_MKL25Z4.s
-Build Time Elapsed:  00:00:01
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>

@@ -28,14 +28,15 @@ void UART0_Init(uint32_t baud_rate)
 	//Fiecare pin pune la dispozitie mai multe functionalitati 
 	//la care avem acces prin intermediul multiplexarii
 
-	
-	// setam doar uart_tx pentru transmitere
+
+	PORTA->PCR[1] = ~PORT_PCR_MUX_MASK;
+	PORTA->PCR[1] = PORT_PCR_ISF_MASK | PORT_PCR_MUX(2);
 	PORTA->PCR[2] = ~PORT_PCR_MUX_MASK;
 	PORTA->PCR[2] = PORT_PCR_ISF_MASK | PORT_PCR_MUX(2); // Configurare TX pentru UART0
 	
 	
 	
-	UART0->C2 &= ~(UART0_C2_TE_MASK); 
+	UART0->C2 &= ~((UART0_C2_TE_MASK) | (UART0_C2_RE_MASK)); 
 	
 	//Configurare Baud Rate
 	osr = 15; // Over-Sampling Rate (numarul de esantioane luate per bit-time)
