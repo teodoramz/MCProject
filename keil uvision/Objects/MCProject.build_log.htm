@@ -27,18 +27,17 @@ Project File Date:  12/01/2022
 <h2>Output:</h2>
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
-Code/Adc.c(2): warning: In file included from...
+Code/main.c(2): warning: In file included from...
 Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
 void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
                                    ^
-Code/Adc.c(5): warning: // comments are not allowed in this language [-Wcomment]
-#define ROTATION_SENSOR_CH (13) // PORT C PIN 2
-                                ^
-Code/Adc.c(83): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
-        uint16_t calibration_var = 0x0000;
-                 ^
-3 warnings generated.
-compiling Adc.c...
+Code/main.c(3): warning: In file included from...
+Code/gpio.h(3): warning: no newline at end of file [-Wnewline-eof]
+void RGBLed_Init(void);
+                       ^
+2 warnings generated.
+compiling main.c...
+compiling system_MKL25Z4.c...
 Code/gpio.c(1): warning: In file included from...
 Code/gpio.h(3): warning: no newline at end of file [-Wnewline-eof]
 void RGBLed_Init(void);
@@ -51,30 +50,77 @@ Code/gpio.c(36): warning: no newline at end of file [-Wnewline-eof]
  ^
 3 warnings generated.
 compiling gpio.c...
-Code/main.c(2): warning: In file included from...
-Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
-void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
-                                   ^
-Code/main.c(3): warning: In file included from...
-Code/gpio.h(3): warning: no newline at end of file [-Wnewline-eof]
-void RGBLed_Init(void);
-                       ^
-2 warnings generated.
-compiling main.c...
-compiling system_MKL25Z4.c...
 Code/Uart.c(1): warning: In file included from...
 Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
 void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
                                    ^
-Code/Uart.c(6): warning: // comments are not allowed in this language [-Wcomment]
+Code/Uart.c(12): warning: // comments are not allowed in this language [-Wcomment]
         //Punem in asteptare pana cand registrul de transmisie a datelor nu este gol
         ^
-2 warnings generated.
+Code/Uart.c(18): warning: no previous prototype for function 'UART0_receive' [-Wmissing-prototypes]
+uint8_t UART0_receive(void)
+        ^
+Code/Uart.c(18): note: declare 'static' if the function is not intended to be used outside of this translation unit
+uint8_t UART0_receive(void)
+^
+static 
+Code/Uart.c(51): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        uint32_t osr = 15; // Over-Sampling Rate (numarul de esantioane luate per bit-time)
+                 ^
+Code/Uart.c(3): warning: no previous extern declaration for non-static variable 'c' [-Wmissing-variable-declarations]
+char c; 
+     ^
+Code/Uart.c(3): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char c; 
+^
+Code/Uart.c(4): warning: no previous extern declaration for non-static variable 'buffer' [-Wmissing-variable-declarations]
+char buffer[32];
+     ^
+Code/Uart.c(4): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+char buffer[32];
+^
+Code/Uart.c(6): warning: no previous extern declaration for non-static variable 'write' [-Wmissing-variable-declarations]
+int write, read;
+    ^
+Code/Uart.c(6): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+int write, read;
+^
+Code/Uart.c(6): warning: no previous extern declaration for non-static variable 'read' [-Wmissing-variable-declarations]
+int write, read;
+           ^
+Code/Uart.c(6): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+int write, read;
+^
+Code/Uart.c(7): warning: no previous extern declaration for non-static variable 'print_buffer' [-Wmissing-variable-declarations]
+int print_buffer;
+    ^
+Code/Uart.c(7): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+int print_buffer;
+^
+Code/Uart.c(8): warning: no previous extern declaration for non-static variable 'full' [-Wmissing-variable-declarations]
+int full;
+    ^
+Code/Uart.c(8): note: declare 'static' if the variable is not intended to be used outside of this translation unit
+int full;
+^
+10 warnings generated.
 compiling Uart.c...
 assembling startup_MKL25Z4.s...
+Code/Adc.c(2): warning: In file included from...
+Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
+void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
+                                   ^
+Code/Adc.c(5): warning: // comments are not allowed in this language [-Wcomment]
+#define ROTATION_SENSOR_CH (13) // PORT C PIN 2
+                                ^
+Code/Adc.c(83): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
+        uint16_t calibration_var = 0x0000;
+                 ^
+3 warnings generated.
+compiling Adc.c...
 linking...
-Program Size: Code=7000 RO-data=400 RW-data=0 ZI-data=360  
-".\Objects\MCProject.axf" - 0 Error(s), 10 Warning(s).
+Program Size: Code=7192 RO-data=400 RW-data=0 ZI-data=408  
+".\Objects\MCProject.axf" - 0 Error(s), 18 Warning(s).
 
 <h2>Software Packages used:</h2>
 
