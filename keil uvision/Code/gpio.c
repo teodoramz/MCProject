@@ -1,10 +1,7 @@
 #include "gpio.h"
-#define SWITCH_PIN (12) // PORT A
+
 #define RED_LED_PIN (18) // PORT B
 #define GREEN_LED_PIN (19) // PORT B
-#define BLUE_LED_PIN (1) // PORT D
-
-uint8_t state;
 
 
 void RGBLed_Init(void){
@@ -36,15 +33,4 @@ void RGBLed_Init(void){
 	// Stingerea LED-ului (punerea pe 0 logic)
 	GPIOB_PSOR |= (1<<GREEN_LED_PIN);
 	
-	// --- BLUE LED ---
-	
-		// Utilizare GPIO ca varianta de multiplexare
-	PORTD->PCR[BLUE_LED_PIN] &= ~PORT_PCR_MUX_MASK;
-	PORTD->PCR[BLUE_LED_PIN] |= PORT_PCR_MUX(1);
-	
-	// Configurare pin pe post de output
-	GPIOD_PDDR |= (1<<BLUE_LED_PIN);
-	
-	// Stingerea LED-ului (punerea pe 0 logic)
-	GPIOD_PSOR |= (1<<BLUE_LED_PIN);
 }

@@ -125,13 +125,13 @@ int ADC0_Calibrate() {
 
 void SND_SensorRez(int limit){
 	
-	int PIN_COLOR;
+	int PIN_COLOR = 0;
 	uint16_t analog_input;
 	double dbValue;
 	int i;
 	char v[16];
 	int count = 0;
-	uint16_t c;
+	int value;
 	
 	//configurare canal senzor de sunet
 	ADC0->SC1[0] = 0x00;
@@ -153,7 +153,7 @@ void SND_SensorRez(int limit){
 	dbValue = log10(analog_input)*(double)20;
 	
 	//rotunjirea acesteia
-	int value = (int) dbValue;
+	value = (int) dbValue;
 	
 	
 	// configurarea zonelor verde - valori mici, galben - valori medii, rosu - valori mari
@@ -200,8 +200,6 @@ void SND_SensorRez(int limit){
 	}
 	
 	
-	
-	
 	//afisarea valorii obtinute
 	
 	for(i = 0; i < 16; i++){
@@ -216,7 +214,7 @@ void SND_SensorRez(int limit){
 	
 	
 	while(value!=0){
-		v[count] = value%10 + 0x30;
+		v[count] = (char)(value%10) + 0x30;
 		value = value/10;
 		count = count + 1;
 	}
@@ -231,11 +229,10 @@ void SND_SensorRez(int limit){
 uint16_t ROT_SensorRez(){
 	
 	int count = 0;
-	uint16_t c;
 	int i;
 	char v[16];
-	uint16_t aux;
-	
+	uint16_t analog_input;
+	uint16_t rezult;
 	
 	//configurare canal senzor de rotatie
 	ADC0->SC1[0] = 0x00;
@@ -245,7 +242,7 @@ uint16_t ROT_SensorRez(){
 	ADC0->SC1[0] |= ADC_SC1_AIEN_MASK;
 	
 	//citirea valorii transmise de senzor
-	uint16_t analog_input = (uint16_t) ADC0->R[0];
+	analog_input = (uint16_t) ADC0->R[0];
 
 	//salvare valoare transmisa intr-o variabila auxiliara
 	lastValue = analog_input;
@@ -277,9 +274,7 @@ uint16_t ROT_SensorRez(){
 	UART0_Transmit(0x0D);
 	
 	//transpun valoarea de la senzorul de rotatie in intervalul 0 - 120db
-	uint16_t rezult = (lastValue * 120)/65535;
-	
-	
+  rezult = (lastValue * 120)/65535;
 	
 	return rezult;
 }
