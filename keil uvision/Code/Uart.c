@@ -80,22 +80,4 @@ void UART0_Init(uint32_t baud_rate)
 }
 void UART0_IRQHandler(void) {
 
-		if(UART0->S1 & UART0_S1_RDRF_MASK) {
-			c = UART0->D;
-			
-			
-			if (c=='5')
-				print_buffer=1;
-			else 
-			{
-				if(c <= '0' || c >= '9')
-			{	
-				buffer[write] = c;
-				write++;
-				if (write==32) 
-					full=1;
-				write = write % 32;}
-			}
-		
-		}
 }
