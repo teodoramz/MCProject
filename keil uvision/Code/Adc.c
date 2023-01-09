@@ -2,13 +2,12 @@
 #include "Uart.h"
 #include <math.h>
 
-#define ROTATION_SENSOR_CH (13) // PORT C PIN 2
-#define SOUND_SENSOR_CH (11) // PORT B PIN 3
+#define ROTATION_SENSOR_CH (13) // PTC2
+#define SOUND_SENSOR_CH (11) // PTB3
 
 
 #define RED_LED_PIN (18) // PORT B
 #define GREEN_LED_PIN (19) // PORT B
-#define BLUE_LED_PIN (1) // PORT D
 
 
 uint16_t lastValue;
@@ -26,7 +25,7 @@ void ADC0_Init() {
 	// Selectarea modului de conversie pe 16 biti single-ended --> MODE
 	// Selectarea sursei de ceas pentru generarea ceasului intern --> ADICLK
 	// Selectarea ratei de divizare folosit de periferic pentru generarea ceasului intern --> ADIV
-	// Set ADC clock frequency fADCK less than or equal to 4 MHz (PG. 494)
+	// Setarea frecventei mai mica sau egale cu 4MHz (PG. 494)
 	ADC0->CFG1 |= ADC_CFG1_MODE(3) |
 							 ADC_CFG1_ADICLK(0) |
 							 ADC_CFG1_ADIV(2);
@@ -43,7 +42,8 @@ void ADC0_Init() {
 	ADC0->SC1[0] |= ADC_SC1_ADCH(SOUND_SENSOR_CH);
 	lastValue = 0;
 	
-	// Enables conversion complete interrupts
+	
+	// Permite intreruperi dupa o conversie completa
 	ADC0->SC1[0] |= ADC_SC1_AIEN_MASK;
 	
 	NVIC_ClearPendingIRQ(ADC0_IRQn);

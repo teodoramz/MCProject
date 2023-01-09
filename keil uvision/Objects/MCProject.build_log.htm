@@ -28,15 +28,16 @@ Project File Date:  12/01/2022
 *** Using Compiler 'V6.18', folder: 'C:\Keil_v5\ARM\ARMCLANG\Bin'
 Rebuild target 'Target 1'
 compiling system_MKL25Z4.c...
-Code/Uart.c(1): warning: In file included from...
+Code/main.c(2): warning: In file included from...
 Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
 void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
                                    ^
-Code/Uart.c(5): warning: // comments are not allowed in this language [-Wcomment]
-        //Punem in asteptare pana cand registrul de transmisie a datelor nu este gol
-        ^
+Code/main.c(3): warning: In file included from...
+Code/gpio.h(3): warning: no newline at end of file [-Wnewline-eof]
+void RGBLed_Init(void);
+                       ^
 2 warnings generated.
-compiling Uart.c...
+compiling main.c...
 Code/gpio.c(1): warning: In file included from...
 Code/gpio.h(3): warning: no newline at end of file [-Wnewline-eof]
 void RGBLed_Init(void);
@@ -49,23 +50,22 @@ Code/gpio.c(36): warning: no newline at end of file [-Wnewline-eof]
  ^
 3 warnings generated.
 compiling gpio.c...
-Code/main.c(2): warning: In file included from...
+Code/Uart.c(1): warning: In file included from...
 Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
 void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
                                    ^
-Code/main.c(3): warning: In file included from...
-Code/gpio.h(3): warning: no newline at end of file [-Wnewline-eof]
-void RGBLed_Init(void);
-                       ^
+Code/Uart.c(5): warning: // comments are not allowed in this language [-Wcomment]
+        //Punem in asteptare pana cand registrul de transmisie a datelor nu este gol
+        ^
 2 warnings generated.
-compiling main.c...
+compiling Uart.c...
 assembling startup_MKL25Z4.s...
 Code/Adc.c(2): warning: In file included from...
 Code/Uart.h(3): warning: // comments are not allowed in this language [-Wcomment]
 void UART0_Transmit(uint8_t data); // Functie folostia pentru a trimite un octet catre interfata UART
                                    ^
 Code/Adc.c(5): warning: // comments are not allowed in this language [-Wcomment]
-#define ROTATION_SENSOR_CH (13) // PORT C PIN 2
+#define ROTATION_SENSOR_CH (13) // PTC2
                                 ^
 Code/Adc.c(83): warning: mixing declarations and code is a C99 extension [-Wdeclaration-after-statement]
         uint16_t calibration_var = 0x0000;
@@ -102,8 +102,8 @@ Package Vendor: Keil
 
    * Component: Keil::Device:Startup:2.5.0
       Source file:   Device/Source/system_MKL25Z4.c
-      Source file:   Device/Source/ARM/startup_MKL25Z4.s
       Include file:  Device/Source/system_MKL25Z4.h
+      Source file:   Device/Source/ARM/startup_MKL25Z4.s
 Build Time Elapsed:  00:00:01
 </pre>
 </body>
